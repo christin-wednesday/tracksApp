@@ -4,9 +4,14 @@ import {
     Text
 } from 'react-native';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect'; 
+import styled from 'styled-components/native';
+import { TopBar } from '../../components/TopBar';
+import { Track } from '../../components/Track';
 import { trackListCreators } from './reducer';
-import { selectTrackList } from './selectors';
+
+const TrackListContainer = styled.ScrollView`
+    background-color: white;
+`;
 
 function TrackList(props) {
     const { trackList, dispatchRequestTrackList } = props;
@@ -14,15 +19,15 @@ function TrackList(props) {
         if (trackList === 'init') {
             dispatchRequestTrackList();
         }
-        console.log(trackList)
-    }, [])
-   
-    console.log(trackList)
+    }, []);
+
     return (
-        <View>
-            <Text>Home</Text>
-            <Text>Track</Text>
-        </View>
+        <>
+            <TopBar />
+            <TrackListContainer>
+                <Track track={trackList[0]}/>
+            </TrackListContainer>
+        </>
     )
 }
 

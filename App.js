@@ -34,7 +34,7 @@ const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(trackListReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(trackListSaga);
-console.log(store, store.getState())
+
 const App = () => {
   return (
     <Provider store={store}>
