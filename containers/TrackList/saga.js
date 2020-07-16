@@ -2,9 +2,9 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 import { getiTunesSearchResults } from '../../utils/apiUtils';
 import { trackListTypes, trackListCreators } from './reducer';
 
-function* getTrackList() {
+function* getTrackList(action) {
     try {
-        const data = yield call(getiTunesSearchResults, 'Pink Floyd');
+        const data = yield call(getiTunesSearchResults, action.payload);
         yield put(trackListCreators.successFetchTrackList(data.results));
     } catch (error) {
         console.warn('fetch failed')

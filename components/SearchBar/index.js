@@ -11,15 +11,10 @@ const Bar = styled(Input)`
     borderWidth: 1
 `;
 export function SearchBar(props) {
-    const { handleIconPress } = props;
-    const [searckKey, setSearchKey] = useState('');
-    const handleChangeInput = nativeEvent => {
-        console.log(nativeEvent.text)
-        setSearchKey(nativeEvent.text)
-    }
+    const { handleIconPress, handleChangeInput, searchKey } = props;
     return (
         <FlexContainer paddingHorizontal={0}>
-            <Bar value={searckKey}
+            <Bar value={searchKey}
                 onChange={({nativeEvent})=> handleChangeInput(nativeEvent)}
                 clearButtonMode="while-editing" 
                 onSubmitEditing={handleIconPress} 

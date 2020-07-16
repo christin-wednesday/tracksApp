@@ -5,7 +5,7 @@ import { createActions } from 'reduxsauce';
 export const initialState = {trackList: [], error: {}}
 
 export const { Types: trackListTypes, Creators: trackListCreators} = createActions({
-    fetchTrackList: null,
+    fetchTrackList: ['payload'],
     successFetchTrackList: ['trackList'],
     failureFetchTrackList: ['error']
 });

@@ -4,12 +4,10 @@ const api = create({
     baseURL: 'https://itunes.apple.com',
 })
 
-export async function getiTunesSearchResults(searchKeyWord = 'Pink') {
+export async function getiTunesSearchResults(searchKeyWord = 'Pink Floyd') {
     return api
-    .get('search?term=pink', {
-            params: {
-                term: 'pink'
-            }
+    .get('search', {
+                term: searchKeyWord
         })
     .then(response => response.data);
 }

@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import { TopBar } from '../../components/TopBar';
 import { Track } from '../../components/Track';
 import { SearchBar } from '../../components/SearchBar';
-import { For } from '../../components/For';
 import { trackListCreators } from './reducer';
 
 const TrackListContainer = styled.ScrollView`
@@ -15,29 +14,33 @@ const TrackListContainer = styled.ScrollView`
 function TrackList(props) {
     const { trackList, dispatchRequestTrackList } = props;
     const [ showSearch, setShowSearch] = useState(false);
-
-    useEffect(() => {
-        if (isEmpty(trackList)) {
-            dispatchRequestTrackList();
-        }
-    }, [trackList]);
-    const handleIconPress = () => {
-        console.log('hiding search', !showSearch)
-        setShowSearch(!showSearch);
+    const [searchKey, setSearchKey] = useState('');
+    const handleChangeInput = nativeEvent => {
+        setSearchKey(nativeEvent.text)
     }
-    const renderTrack = item => (
-        <Track track={item} />
-    )
-    console.log(trackList)
+    const handleIconPress = () => {
+        setShowSearch(!showSearch);
+        }
+
+    const renderTracks = () => 
+        trackList.map(track => (
+            <Track track={track}/>
+            ));
+    const handleSearchIconPress = () => {
+        if (!isEmpty(searchKey.trim())) {
+            dispatchRequestTrackList(searchKey);
+        }
+    }
     return (
         <>
-            {showSearch ? <SearchBar handleIconPress={handleIconPress} /> : <TopBar handleIconPress={handleIconPress} />}
+            {showSearch ? 
+            <SearchBar searchKey={searchKey}
+                handleChangeInput={handleChangeInput}
+                handleIconPress={handleSearchIconPress} /> 
+            : <TopBar handleIconPress={handleIconPress} />
+            }
             <TrackListContainer>
-                <For 
-                    wrapper={() => null}
-                    render={renderTrack}
-                    list={trackList}
-                />
+                {renderTracks()}
             </TrackListContainer>
         </>
     )
@@ -52,8 +55,8 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch){
     return {
-        dispatchRequestTrackList: () => 
-            dispatch(trackListCreators.fetchTrackList())
+        dispatchRequestTrackList: payload => 
+            dispatch(trackListCreators.fetchTrackList(payload))
     }
 }
 
