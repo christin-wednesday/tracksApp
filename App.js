@@ -11,20 +11,12 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
-  Text,
   StatusBar,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga'
 import TrackList from './containers/TrackList';
 import { trackListReducer } from './containers/TrackList/reducer';

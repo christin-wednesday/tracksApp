@@ -1,13 +1,11 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
+import { getiTunesSearchResults } from '../../utils/apiUtils';
 import { trackListTypes, trackListCreators } from './reducer';
 
 function* getTrackList() {
     try {
-        const data = [{
-            artistName: 'Pink Floyd',
-            albumArtUri:'https://upload.wikimedia.org/wikipedia/en/9/95/Highhopes.jpg'
-        }]
-        yield put(trackListCreators.successFetchTrackList(data));
+        const data = yield call(getiTunesSearchResults, 'Pink Floyd');
+        yield put(trackListCreators.successFetchTrackList(data.results));
     } catch (error) {
         console.warn('fetch failed')
         yield put(trackListCreators.failureFetchTrackList(error.message))
