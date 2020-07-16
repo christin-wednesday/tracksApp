@@ -1,21 +1,10 @@
 import React from 'react';
-import { 
-    Text
-} from 'react-native';
 import {
     Icon
 } from 'react-native-elements'
 import styled from 'styled-components/native';
+import { FlexContainer } from '../FlexContainer';
 
-const FlexContainer = styled.View`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #F0F0F0F0;
-    height: 60;
-    paddingHorizontal: 15;
-`;
 const T = styled.Text`
     color: black;
     font-size: 25;
