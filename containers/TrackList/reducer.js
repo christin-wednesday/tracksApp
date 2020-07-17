@@ -7,7 +7,8 @@ export const initialState = {trackList: [], error: {}}
 export const { Types: trackListTypes, Creators: trackListCreators} = createActions({
     fetchTrackList: ['payload'],
     successFetchTrackList: ['trackList'],
-    failureFetchTrackList: ['error']
+    failureFetchTrackList: ['error'],
+    clearTrackList:[]
 });
 
 export const trackListReducer = (state = initialState, action) =>{
@@ -18,6 +19,8 @@ export const trackListReducer = (state = initialState, action) =>{
                 return {...state, trackList: action.trackList}
             case trackListTypes.FAILURE_FETCH_TRACK_LIST:
                 return {...state, error: action.error}
+            case trackListTypes.CLEAR_TRACK_LIST:
+                return {...state, trackList: []};
             default:
                 return state;
         }

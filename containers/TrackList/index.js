@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import {
+    SafeAreaView,
+    StyleSheet,
+    ScrollView,
+    StatusBar,
+  } from 'react-native';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import styled from 'styled-components/native';
@@ -12,7 +18,7 @@ const TrackListContainer = styled.ScrollView`
 `;
 
 function TrackList(props) {
-    const { trackList, dispatchRequestTrackList } = props;
+    const { trackList, dispatchRequestTrackList, navigation, dispatchClearTrackList } = props;
     const [ showSearch, setShowSearch] = useState(false);
     const [searchKey, setSearchKey] = useState('');
     const handleChangeInput = nativeEvent => {
@@ -20,9 +26,12 @@ function TrackList(props) {
     }
     const handleIconPress = () => {
         setShowSearch(!showSearch);
+        setSearchKey('')
         }
-
-    const renderTracks = () => 
+    const handleAddPress = () => {
+        navigation.navigate("addArtist")
+    }
+    const renderTracks = () =>
         trackList.map(track => (
             <Track track={track}/>
             ));
@@ -31,17 +40,30 @@ function TrackList(props) {
             dispatchRequestTrackList(searchKey);
         }
     }
+    const handleTitlePress = () => {
+      dispatchClearTrackList();
+    }
     return (
         <>
-            {showSearch ? 
-            <SearchBar searchKey={searchKey}
-                handleChangeInput={handleChangeInput}
-                handleIconPress={handleSearchIconPress} /> 
-            : <TopBar handleIconPress={handleIconPress} />
-            }
-            <TrackListContainer>
-                {renderTracks()}
-            </TrackListContainer>
+        <StatusBar barStyle="dark-content" />
+            <SafeAreaView>
+                <ScrollView>
+                    {showSearch ?
+                    <SearchBar searchKey={searchKey}
+                        handleChangeInput={handleChangeInput}
+                        handleIconPress={handleSearchIconPress}
+                        handleBackPress={handleIconPress}  />
+                    : <TopBar
+                    handleIconPress={handleIconPress}
+                    handleAddPress={handleAddPress}
+                    handleTitlePress={handleTitlePress}
+                    />
+                    }
+                    <TrackListContainer>
+                        {renderTracks()}
+                    </TrackListContainer>
+                </ScrollView>
+        </SafeAreaView>
         </>
     )
 }
@@ -55,8 +77,10 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch){
     return {
-        dispatchRequestTrackList: payload => 
-            dispatch(trackListCreators.fetchTrackList(payload))
+        dispatchRequestTrackList: payload =>
+            dispatch(trackListCreators.fetchTrackList(payload)),
+        dispatchClearTrackList: () =>
+            dispatch(trackListCreators.clearTrackList())
     }
 }
 
