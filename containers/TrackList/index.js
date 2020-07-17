@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
+    ActivityIndicator,
     SafeAreaView,
-    StyleSheet,
     ScrollView,
     StatusBar,
+    FlatList
   } from 'react-native';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
@@ -18,7 +19,13 @@ const TrackListContainer = styled.ScrollView`
 `;
 
 function TrackList(props) {
-    const { trackList, dispatchRequestTrackList, navigation, dispatchClearTrackList } = props;
+    const { trackList,
+        loading,
+        error,
+         dispatchRequestTrackList,
+          navigation,
+           dispatchClearTrackList
+         } = props;
     const [ showSearch, setShowSearch] = useState(false);
     const [searchKey, setSearchKey] = useState('');
     const handleChangeInput = nativeEvent => {
@@ -31,10 +38,7 @@ function TrackList(props) {
     const handleAddPress = () => {
         navigation.navigate("addArtist")
     }
-    const renderTracks = () =>
-        trackList.map(track => (
-            <Track track={track}/>
-            ));
+    const renderTracks = ({item}) => (<Track track={item}/>)
     const handleSearchIconPress = () => {
         if (!isEmpty(searchKey.trim())) {
             dispatchRequestTrackList(searchKey);
@@ -44,7 +48,7 @@ function TrackList(props) {
       dispatchClearTrackList();
     }
     return (
-        <>
+    <>
         <StatusBar barStyle="dark-content" />
             <SafeAreaView>
                 <ScrollView>
@@ -59,11 +63,16 @@ function TrackList(props) {
                     handleTitlePress={handleTitlePress}
                     />
                     }
+                    <ActivityIndicator animating={loading}/>
                     <TrackListContainer>
-                        {renderTracks()}
+                        <FlatList
+                            data={trackList}
+                            renderItem={renderTracks}
+                            keyExtractor={item => item.trackId}
+                        />
                     </TrackListContainer>
                 </ScrollView>
-        </SafeAreaView>
+            </SafeAreaView> 
         </>
     )
 }
@@ -71,7 +80,8 @@ function TrackList(props) {
 const mapStateToProps = state => {
     return {
         trackList: state.trackList,
-        error: state.error
+        error: state.error,
+        loading: state.loading
     }
 }
 
