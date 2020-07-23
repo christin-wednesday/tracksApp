@@ -8,21 +8,29 @@ import 'react-native-gesture-handler';
  */
 
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga'
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import Amplify from 'aws-amplify'
+import config from './aws-exports'
 import TrackList from './containers/TrackList';
-import { AddArtist } from './containers/AddArtist';
-import { trackListReducer } from './containers/TrackList/reducer';
-import { trackListSaga } from './containers/TrackList/saga';
+import {AddArtist} from './containers/AddArtist';
+import {trackListReducer} from './containers/TrackList/reducer';
+import {trackListSaga} from './containers/TrackList/saga';
+
+Amplify.configure(config)
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(trackListReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
+
+const store = createStore(
+  trackListReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware)),
+);
 sagaMiddleware.run(trackListSaga);
 
 const Stack = createStackNavigator();

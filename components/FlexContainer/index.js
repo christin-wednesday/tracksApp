@@ -1,41 +1,47 @@
 import React from 'react';
-import styled from 'styled-components/native';
-
-const Container = styled.View`
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    
-     ${props => `
-        flex-direction: ${props.flexDirection};
-        align-items: ${props.alignItems};
-        justify-content: ${props.justifyContent};
-        background-color: ${props.backgroundColor};
-        height: ${props.height};
-        paddingHorizontal: ${props.paddingHorizontal};
-
-    `}
-`;
+import {View, StyleSheet} from 'react-native';
 
 export function FlexContainer(props) {
-    const {children, ...otherProps} = props;
-    return (
-        <Container {...otherProps}
-            flexDirection={props.flexDirection}
-            justifyContent={props.justifyContent}
-            backgroundColor={props.backgroundColor}
-            height={props.height}
-        >
-            {children}
-        </Container>
-    )
+  const {
+    children,
+    flexDirection,
+    alignItems,
+    justifyContent,
+    backgroundColor,
+    height,
+    paddingHorizontal,
+    display,
+    flex,
+    customStyles,
+    ...otherProps
+  } = props;
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: flexDirection,
+      alignItems,
+      justifyContent,
+      backgroundColor,
+      height,
+      paddingHorizontal,
+      display,
+      flex: 1,
+      ...customStyles,
+    },
+  });
+  return (
+    <View {...otherProps} style={styles.container}>
+      {children}
+    </View>
+  );
 }
 
 FlexContainer.defaultProps = {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#F0F0F0F0',
-    height: 60,
-    paddingHorizontal: 15
-}
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  backgroundColor: '#F0F0F0F0',
+  height: 60,
+  paddingHorizontal: 15,
+};

@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tracksapp-dev-211435-authRole",
+            "UnauthRoleArn": "arn:aws:iam::707506014919:role/amplify-tracksapp-dev-211435-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::707506014919:role/amplify-tracksapp-dev-211435-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-tracksapp-dev-211435-deployment",
+            "UnauthRoleName": "amplify-tracksapp-dev-211435-unauthRole",
+            "StackName": "amplify-tracksapp-dev-211435",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:707506014919:stack/amplify-tracksapp-dev-211435/427b0110-cc32-11ea-85e8-068c48abfc3a",
+            "AmplifyAppId": "d36iqz4xncz54t"
+        }
+    }
+}
